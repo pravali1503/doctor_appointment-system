@@ -375,23 +375,61 @@ export default function App() {
                     onClick={() => setAuthMode("login")}
                     className={`flex-1 rounded-md py-1.5 text-center text-xs font-bold cursor-pointer transition ${authMode === "login" ? "bg-white dark:bg-slate-700 text-blue-700 dark:text-blue-300 shadow-xs" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"}`}
                   >
-                    Account Login
+                    Sign In
                   </button>
                   <button
                     onClick={() => setAuthMode("register")}
                     className={`flex-1 rounded-md py-1.5 text-center text-xs font-bold cursor-pointer transition ${authMode === "register" ? "bg-white dark:bg-slate-700 text-blue-700 dark:text-blue-300 shadow-xs" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"}`}
                   >
-                    Register Patient
+                    Sign Up
                   </button>
                 </div>
 
                 <h3 className="text-base font-bold text-slate-950 dark:text-white mb-1 font-display">
-                  {authMode === "login" ? "Welcome back" : "Patient Registration"}
+                  {authMode === "login" ? "Welcome Back to CareSync" : "Create CareSync Account"}
                 </h3>
-                <p className="text-xs text-slate-400 dark:text-slate-450 mb-5">Provide credentials or select a Quick Demo bypass account below.</p>
+                <p className="text-xs text-slate-400 dark:text-slate-450 mb-5">
+                  {authMode === "login" 
+                    ? "Enter your credentials to access your patient or administrative clinician dashboard." 
+                    : "Fill out the fields below. Set your profile role to choose whether you are a Patient or Administration."}
+                </p>
 
                 {/* Authentication input form */}
                 <form onSubmit={handleAuthSubmit} className="space-y-3.5">
+                  {authMode === "register" && (
+                    <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-150 dark:border-slate-850 mb-3">
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-450 mb-2">
+                        Choose Your Profile Role
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setRole("PATIENT")}
+                          className={`py-1.5 px-2 rounded-lg text-xs font-bold flex flex-col items-center justify-center border transition-all ${
+                            role === "PATIENT"
+                              ? "bg-blue-50/75 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-300 shadow-xs"
+                              : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          <span className="text-xs">Patient Account</span>
+                          <span className="text-[9px] text-slate-450 dark:text-slate-500 font-normal">Book & Track</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setRole("ADMIN")}
+                          className={`py-1.5 px-2 rounded-lg text-xs font-bold flex flex-col items-center justify-center border transition-all ${
+                            role === "ADMIN"
+                              ? "bg-blue-50/75 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-300 shadow-xs"
+                              : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          <span className="text-xs">Admin / Staff</span>
+                          <span className="text-[9px] text-slate-450 dark:text-slate-500 font-normal">Manage Queues</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   {authMode === "register" && (
                     <div>
                       <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-405 mb-1">Full Name</label>
@@ -439,42 +477,26 @@ export default function App() {
                     </div>
                   </div>
 
-                  {authMode === "register" && (
-                    <div className="border-t border-slate-100 dark:border-slate-800 pt-2.5">
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-405 mb-2">Request Platform Role</label>
-                      <div className="flex gap-4">
-                        <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-semibold cursor-pointer">
-                          <input 
-                            type="radio" 
-                            name="reg_role" 
-                            checked={role === "PATIENT"} 
-                            onChange={() => setRole("PATIENT")} 
-                            className="accent-blue-600 h-4 w-4"
-                          />
-                          <span>PATIENT (Default)</span>
-                        </label>
-                        <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-semibold cursor-pointer">
-                          <input 
-                            type="radio" 
-                            name="reg_role" 
-                            checked={role === "ADMIN"} 
-                            onChange={() => setRole("ADMIN")}
-                            className="accent-blue-600 h-4 w-4"
-                          />
-                          <span>ADMINISTRATIVE</span>
-                        </label>
-                      </div>
-                    </div>
-                  )}
-
                   <button
                     type="submit"
-                    className="w-full rounded-xl bg-blue-600 py-2 text-center text-xs font-bold text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition cursor-pointer flex items-center justify-center gap-1.5"
+                    className="w-full rounded-xl bg-blue-600 py-2.5 text-center text-xs font-bold text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition cursor-pointer flex items-center justify-center gap-1.5"
                     id="submit-auth-btn"
                   >
-                    <span>{authMode === "login" ? "Enter Portal" : "Join Platform"}</span>
+                    <span>{authMode === "login" ? "Enter Portal" : `Sign Up as ${role === "ADMIN" ? "Admin" : "Patient"}`}</span>
                     <ArrowRight className="w-4 h-4 font-bold" />
                   </button>
+
+                  <div className="text-center pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
+                      className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-bold transition cursor-pointer"
+                    >
+                      {authMode === "login" 
+                        ? "Don't have an account? Sign Up / Create Account ➔" 
+                        : "Already have an account? Sign In / Login ➔"}
+                    </button>
+                  </div>
 
                 </form>
 
