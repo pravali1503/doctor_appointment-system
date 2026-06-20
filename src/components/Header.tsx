@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { User, Bell, LogOut, Check, Activity, ShieldAlert, FileText, Sun, Moon } from "lucide-react";
+import { User, Bell, LogOut, Check, Activity, ShieldAlert, Sun, Moon } from "lucide-react";
 import { ClinicNotification } from "../types";
 
 interface HeaderProps {
@@ -13,7 +13,6 @@ interface HeaderProps {
   onLogout?: () => void;
   onReadNotifications?: () => void;
   onRoleMockToggle?: () => void; // A convenience hook for testing/assessment of multiple perspectives
-  onOpenDocs: () => void; // Support system specifications modal
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
 }
@@ -24,7 +23,6 @@ export default function Header({
   onLogout,
   onReadNotifications,
   onRoleMockToggle,
-  onOpenDocs,
   isDarkMode,
   onToggleDarkMode
 }: HeaderProps) {
@@ -49,17 +47,6 @@ export default function Header({
         {/* Action Controls */}
         <div className="flex items-center gap-4">
           
-          {/* Always Visible components: Blueprint Manual (custom view) and Dark mode tracker */}
-          <button
-            onClick={onOpenDocs}
-            className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all pointer-events-auto cursor-pointer"
-            title="View interactive system specs blueprint and compile PDF documentation booklet"
-            id="header-docs-btn"
-          >
-            <FileText className="w-4 h-4 text-blue-500 dark:text-blue-400" />
-            <span className="hidden sm:inline">Blueprint Manual</span>
-          </button>
-
           {/* Dark / Light Toggle Switch */}
           <button
             onClick={onToggleDarkMode}

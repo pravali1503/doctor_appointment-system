@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import { 
-  Activity, Star, User, Lock, Mail, ChevronRight, RefreshCw, Sparkles, AlertTriangle, ShieldCheck, Plus, ArrowRight, FileText
+  Activity, Star, User, Lock, Mail, ChevronRight, RefreshCw, Sparkles, AlertTriangle, ShieldCheck, Plus, ArrowRight
 } from "lucide-react";
 
 import { apiService } from "./services/api";
@@ -14,7 +14,6 @@ import Header from "./components/Header";
 import PatientBoard from "./components/PatientBoard";
 import AdminBoard from "./components/AdminBoard";
 import DoctorRegisterModal from "./components/DoctorRegisterModal";
-import SystemDocsModal from "./components/SystemDocsModal";
 import ToastContainer, { ToastMessage } from "./components/Toast";
 
 export default function App() {
@@ -62,7 +61,6 @@ export default function App() {
   // Modal active states
   const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
   const [editDoctorItem, setEditDoctorItem] = useState<Doctor | null>(null);
-  const [isDocsOpen, setIsDocsOpen] = useState(false);
 
   // Real-time custom toast lists
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -261,7 +259,6 @@ export default function App() {
           onLogout={handleLogout}
           onReadNotifications={handleMarkNotificationsRead}
           onRoleMockToggle={handleRoleMockToggle}
-          onOpenDocs={() => setIsDocsOpen(true)}
           isDarkMode={isDarkMode}
           onToggleDarkMode={toggleDarkMode}
         />
@@ -340,65 +337,29 @@ export default function App() {
               </div>
               
               <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white font-display leading-[1.12]">
-                CareSync Clinic: <br />
-                <span className="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 py-0.5 px-2 rounded-xl border border-blue-200 dark:border-blue-800/60 inline-block mt-1">Smart Schedulers</span> & <br className="hidden sm:block" /> 
-                Queue Optimizers.
+                CareSync Clinic
               </h1>
+
+              <div className="border-l-4 border-blue-500 pl-4 py-1.5 italic text-slate-600 dark:text-slate-300">
+                “Wherever the art of Medicine is loved, there is also a love of Humanity.”
+                <span className="block text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 not-italic mt-1">— Hippocrates</span>
+              </div>
               
               <p className="text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 max-w-xl">
-                The ultimate 4-day clinic solution to eliminate double bookings, automate standby priority waitlists, and stream live queue consultations timelines. Fully responsive, secured, and lightning fast.
+                A thoughtfully simplified system for elegant patient queue coordination, direct clinician workflows, and compassionate appointment scheduling.
               </p>
 
-              {/* Interactive Docs launch */}
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsDocsOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-950 dark:bg-slate-800 dark:hover:bg-slate-700 text-white px-5 py-2.5 text-xs font-bold transition shadow-md dark:shadow-none cursor-pointer font-display"
-                  id="landing-docs-btn"
-                >
-                  <FileText className="w-4 h-4 text-blue-400" />
-                  <span>Specs Manual & PDF Booklet</span>
-                </button>
-              </div>
-
-              {/* Unique Features Lists */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg">
-                <div className="flex items-start gap-2.5">
-                  <div className="rounded-full bg-blue-50 dark:bg-blue-900/30 h-5 w-5 flex items-center justify-center mt-0.5">
-                    <span className="text-xs font-extrabold text-blue-700 dark:text-blue-300">✓</span>
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-slate-900 dark:text-slate-100">Waitlist Standbys</span>
-                    <p className="text-[10px] text-slate-405 text-slate-400 dark:text-slate-450">Instantly release cancelled slots to the next queued patient.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="rounded-full bg-blue-50 dark:bg-blue-900/30 h-5 w-5 flex items-center justify-center mt-0.5">
-                    <span className="text-xs font-extrabold text-blue-700 dark:text-blue-300">✓</span>
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-slate-900 dark:text-slate-100">Dual Perspective Demos</span>
-                    <p className="text-[10px] text-slate-405 text-slate-400 dark:text-slate-450">One-click sign-in widgets to easily evaluate Patient vs Admin views.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="rounded-full bg-blue-50 dark:bg-blue-900/30 h-5 w-5 flex items-center justify-center mt-0.5">
-                    <span className="text-xs font-extrabold text-blue-700 dark:text-blue-300">✓</span>
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-slate-900 dark:text-slate-100">Visual Schedules Tracking</span>
-                    <p className="text-[10px] text-slate-405 text-slate-400 dark:text-slate-450">Interactive patient progress bar: Booked → Confirmed → Waiting → Treatment Close.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="rounded-full bg-blue-50 dark:bg-blue-900/30 h-5 w-5 flex items-center justify-center mt-0.5">
-                    <span className="text-xs font-extrabold text-blue-700 dark:text-blue-300">✓</span>
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-slate-900 dark:text-slate-100">Capacity Guardrails</span>
-                    <p className="text-[10px] text-slate-405 text-slate-400 dark:text-slate-450">No past bookings, maximum daily limitations, and patient overlaps.</p>
-                  </div>
+              {/* Super experience custom human-made visual showcase instead of heavy lists */}
+              <div className="relative group rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/30 p-2 shadow-md">
+                <img 
+                  src="/src/assets/images/clinic_hero_dashboard_1781974339455.jpg" 
+                  alt="Modern CareSync Clinic professional medical staff" 
+                  className="rounded-xl w-full object-cover max-h-[280px]"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md px-3.5 py-2.5 rounded-lg border border-slate-150 dark:border-slate-850 flex items-center justify-between text-[11px]">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">✦ Cultivating patient satisfaction and clinical excellence.</span>
+                  <span className="text-blue-600 dark:text-blue-400 font-bold font-mono">LIVE SYNCED</span>
                 </div>
               </div>
 
@@ -576,12 +537,6 @@ export default function App() {
         onClose={() => setIsDoctorModalOpen(false)}
         onSave={handleSaveDoctor}
         doctorToEdit={editDoctorItem}
-      />
-
-      {/* Interactive specification specs docs modal */}
-      <SystemDocsModal
-        isOpen={isDocsOpen}
-        onClose={() => setIsDocsOpen(false)}
       />
 
     </div>
